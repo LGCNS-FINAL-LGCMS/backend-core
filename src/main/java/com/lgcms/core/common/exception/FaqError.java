@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 @Getter
 @AllArgsConstructor
 public enum FaqError implements ErrorCodeInterface {
-    LECTURE_FORBIDDEN("LECE-03","강의에 접근 권한이 없습니다.", HttpStatus.FORBIDDEN);
+    FAQ_NOT_FOUND("FAQE-03","FAQ를 불러올 수 없습니다.", HttpStatus.NOT_FOUND);
 
     private final String status;
     private final String message;
