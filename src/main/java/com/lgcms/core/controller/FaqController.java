@@ -23,8 +23,14 @@ public class FaqController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<BaseResponse> updateFaa(@PathVariable("id") Long faqId, @RequestBody FaqRequest faqRequest){
+    public ResponseEntity<BaseResponse> updateFaq(@PathVariable("id") Long faqId, @RequestBody FaqRequest faqRequest){
         faqService.updateFaq(faqId,faqRequest);
+        return ResponseEntity.ok(BaseResponse.ok(null));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<BaseResponse> deleteFaq(@PathVariable("id") Long faqId){
+        faqService.deleteFaq(faqId);
         return ResponseEntity.ok(BaseResponse.ok(null));
     }
 }

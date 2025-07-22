@@ -32,4 +32,9 @@ public class FaqService {
 
         faq.modifyFaq(faqRequest.question(), faqRequest.answer());
     }
+
+    @Transactional
+    public void deleteFaq(Long faqId) {
+        faqRepository.deleteById(faqId);
+    }
 }
