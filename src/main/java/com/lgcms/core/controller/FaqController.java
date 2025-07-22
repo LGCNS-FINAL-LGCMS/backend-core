@@ -2,10 +2,13 @@ package com.lgcms.core.controller;
 
 import com.lgcms.core.common.BaseResponse;
 import com.lgcms.core.dto.request.FaqRequest;
+import com.lgcms.core.dto.response.FaqResponse;
 import com.lgcms.core.service.FaqService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/faq")
@@ -31,6 +34,12 @@ public class FaqController {
     @DeleteMapping("/{id}")
     public ResponseEntity<BaseResponse> deleteFaq(@PathVariable("id") Long faqId){
         faqService.deleteFaq(faqId);
+        return ResponseEntity.ok(BaseResponse.ok(null));
+    }
+
+    @GetMapping("")
+    public ResponseEntity<BaseResponse> getFaq(){
+        List<FaqResponse> faqResponses = faqService.findAll();
         return ResponseEntity.ok(BaseResponse.ok(null));
     }
 }

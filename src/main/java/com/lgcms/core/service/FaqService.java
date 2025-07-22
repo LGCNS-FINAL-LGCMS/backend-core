@@ -4,11 +4,14 @@ import com.lgcms.core.common.exception.BaseException;
 import com.lgcms.core.common.exception.FaqError;
 import com.lgcms.core.domain.Faq;
 import com.lgcms.core.dto.request.FaqRequest;
+import com.lgcms.core.dto.response.FaqResponse;
 import com.lgcms.core.repository.FaqRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -36,5 +39,13 @@ public class FaqService {
     @Transactional
     public void deleteFaq(Long faqId) {
         faqRepository.deleteById(faqId);
+    }
+
+    public List<FaqResponse> findAll() {
+        List<FaqResponse> faqResponses = faqRepository.findAll()
+                .stream()
+                .map(faq -> new FaqResponse(faq.getId(),faq.getQuestion(),faq.getAnswer()))
+                .toList();
+        return faqResponses;
     }
 }
