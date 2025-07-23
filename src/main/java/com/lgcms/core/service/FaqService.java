@@ -27,7 +27,7 @@ public class FaqService {
                 .answer(faqCreateRequest.answer())
                 .build();
 
-
+        faqRepository.save(faq);
     }
     @Transactional
     public void updateFaq(Long faqId,FaqRequest faqRequest) {
