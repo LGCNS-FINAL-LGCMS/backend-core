@@ -30,4 +30,10 @@ public class CategoryController {
         return ResponseEntity.ok(BaseResponse.ok(null));
     }
 
+    @GetMapping("/list")
+    public ResponseEntity<BaseResponse> getCategoryList(){
+       CategoryListResponse response =  categoryService.getCategoryList();
+       return ResponseEntity.ok(BaseResponse.ok(response));
+    }
+
 }

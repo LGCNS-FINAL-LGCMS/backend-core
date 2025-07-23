@@ -51,4 +51,24 @@ public class CategoryService {
         itemRepository.save(item);
 
     }
+
+    @Transactional
+    public CategoryListResponse getCategoryList() {
+        List<Category> categories = categoryRepository.findAll();
+        List<CategoryResponse> categoryResponses = categories.stream()
+                .map(category -> new CategoryResponse(category.getName(), category.getId()))
+                .toList();
+
+        List<SubCategory> subCategories = subCategoryRepository.findAll();
+        List<SubCategoryResponse> subCategoryResponses = subCategories.stream()
+                .map(subCategory -> new SubCategoryResponse(subCategory.getName(), subCategory.getId()))
+                .toList();
+
+        List<Item> items = itemRepository.findAll();
+        List<ItemResponse> itemResponses = items.stream()
+                .map(item -> new ItemResponse(item.getName(), item.getId()))
+                .toList();
+        return new CategoryListResponse(categoryResponses, subCategoryResponses, itemResponses);
+    }
+
 }
