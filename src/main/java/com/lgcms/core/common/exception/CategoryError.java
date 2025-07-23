@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 @Getter
 @AllArgsConstructor
 public enum CategoryError implements ErrorCodeInterface {
-    LESSON_NOT_FOUND("LESE-01","공개된 강좌가 없습니다.", HttpStatus.NOT_FOUND)
+    CATEGORY_NOT_FOUND("CATE-01","카테고리를 찾을 수 없습니다.", HttpStatus.NOT_FOUND)
     ;
 
     private final String status;

@@ -10,23 +10,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Getter
-@Builder
-@NoArgsConstructor
+@Getter@Builder
 @AllArgsConstructor
-public class Faq {
+@NoArgsConstructor
+public class SubCategory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String question;
+    private Long categoryId;
 
-    private String answer;
-
-
-    public void modifyFaq(String question, String answer){
-        if(question != null) this.question = question;
-        if(answer!=null) this.answer = answer;
-    }
+    private String name;
 }
