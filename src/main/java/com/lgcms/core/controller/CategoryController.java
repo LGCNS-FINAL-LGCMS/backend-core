@@ -55,4 +55,9 @@ public class CategoryController {
         return ResponseEntity.ok(BaseResponse.ok(itemResponses));
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<BaseResponse> deleteCategory(@PathVariable("id") Long id){
+        categoryService.deleteCategory(id);
+        return ResponseEntity.ok(BaseResponse.ok(null));
+    }
 }

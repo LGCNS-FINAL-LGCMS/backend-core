@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -98,5 +99,11 @@ public class CategoryService {
                 .toList();
 
         return itemResponses;
+    }
+    @Transactional
+    public void deleteCategory(Long id) {
+        categoryRepository.deleteById(id);
+        subCategoryRepository.deleteAllByCategoryId(Collections.singleton(id));
+        itemRepository.deleteAllByCategoryId(Collections.singleton(id));
     }
 }
