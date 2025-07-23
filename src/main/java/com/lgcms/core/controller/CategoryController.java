@@ -36,4 +36,23 @@ public class CategoryController {
        return ResponseEntity.ok(BaseResponse.ok(response));
     }
 
+    @GetMapping("") // 디폴트 대분류 조회
+    public ResponseEntity<BaseResponse> getCategory(){
+        List<CategoryResponse> categoryResponses = categoryService.getCategory();
+        return ResponseEntity.ok(BaseResponse.ok(categoryResponses));
+    }
+
+    @GetMapping("/sub/{id}")
+    public ResponseEntity<BaseResponse> getSubCategory(@PathVariable("id") Long categoryId){
+        List<SubCategoryResponse> subCategoryResponses = categoryService.getSubCategory(categoryId);
+        return ResponseEntity.ok(BaseResponse.ok(subCategoryResponses));
+    }
+
+    @GetMapping("/item/{id}")
+    public ResponseEntity<BaseResponse> getItem(@PathVariable("id") Long subCategoryId){
+        List<ItemResponse> itemResponses = categoryService.getItems(subCategoryId);
+
+        return ResponseEntity.ok(BaseResponse.ok(itemResponses));
+    }
+
 }
