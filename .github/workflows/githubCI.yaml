@@ -20,7 +20,7 @@ jobs:
         env:
           POSTGRES_USER: lgcms
           POSTGRES_PASSWORD: 1234
-          POSTGRES_DB: core
+          POSTGRES_DB: testdb
         ports:
           - 5432:5432
       redis:
@@ -46,6 +46,8 @@ jobs:
       - name: Create application-dev.yaml
         run: |
           mkdir -p src/main/resources
+          echo "${{ vars.APPLICATION_DEFAULT }}" > src/main/resources/application.yaml
+          echo "${{ vars.APPLICATION_TEST }}" > src/main/resources/application-test.yaml
           echo "${{ vars.APPLICATION_DEV }}" > src/main/resources/application-dev.yaml
 
       - name: Setup Gradle
@@ -53,7 +55,7 @@ jobs:
 
       - name: Build with Gradle
         id: buildWithGradle
-        run: ./gradlew clean build -x test
+        run: ./gradlew clean build
         shell: bash
 
       - name: Extract App Name & Version
