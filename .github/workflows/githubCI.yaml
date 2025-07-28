@@ -48,8 +48,10 @@ jobs:
         run: |
           mkdir -p src/main/resources
           echo "${{ vars.APPLICATION_DEFAULT }}" > src/main/resources/application.yaml
-          echo "${{ vars.APPLICATION_TEST }}" > src/main/resources/application-test.yaml
           echo "${{ vars.APPLICATION_DEV }}" > src/main/resources/application-dev.yaml
+          cat <<'EOF' > src/main/resources/application-test.yaml
+          ${{ vars.APPLICATION_TEST }}
+          EOF
 
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
