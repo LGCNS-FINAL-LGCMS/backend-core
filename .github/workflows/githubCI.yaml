@@ -43,7 +43,8 @@ jobs:
         run: chmod +x ./gradlew
         shell: bash
 
-      - name: Create application-dev.yaml
+      - name: Update application.yaml
+        shell: bash
         run: |
           mkdir -p src/main/resources
           echo "${{ vars.APPLICATION_DEFAULT }}" > src/main/resources/application.yaml
