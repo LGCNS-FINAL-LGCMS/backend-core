@@ -53,7 +53,7 @@ public class CategoryService {
 
     }
 
-    @Transactional
+
     public CategoryListResponse getCategoryList() {
         List<Category> categories = categoryRepository.findAll();
         List<CategoryResponse> categoryResponses = categories.stream()
@@ -93,17 +93,17 @@ public class CategoryService {
 
     @Transactional
     public List<ItemResponse> getItems(Long subCategoryId) {
-        List<Item> items = itemRepository.findAllBYSubCategoryId(subCategoryId);
+        List<Item> items = itemRepository.findAllBySubCategoryId(subCategoryId);
         List<ItemResponse> itemResponses = items.stream()
                 .map(item -> new ItemResponse(item.getName(), item.getId()))
                 .toList();
 
         return itemResponses;
     }
-    @Transactional
+
     public void deleteCategory(Long id) {
+        itemRepository.deleteAllByCategoryId(id);
+        subCategoryRepository.deleteAllByCategoryId(id);
         categoryRepository.deleteById(id);
-        subCategoryRepository.deleteAllByCategoryId(Collections.singleton(id));
-        itemRepository.deleteAllByCategoryId(Collections.singleton(id));
     }
 }
