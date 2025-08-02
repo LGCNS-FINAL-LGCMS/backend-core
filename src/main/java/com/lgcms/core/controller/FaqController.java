@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/faq")
+@RequestMapping("/api/faq")
 @RequiredArgsConstructor
 public class FaqController {
 
@@ -40,6 +40,6 @@ public class FaqController {
     @GetMapping("")
     public ResponseEntity<BaseResponse> getFaq(){
         List<FaqResponse> faqResponses = faqService.findAll();
-        return ResponseEntity.ok(BaseResponse.ok(null));
+        return ResponseEntity.ok(BaseResponse.ok(faqResponses));
     }
 }

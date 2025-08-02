@@ -24,9 +24,15 @@ public class Faq {
 
     private String answer;
 
+    private String imageUrl;
 
-    public void modifyFaq(String question, String answer){
+    private String url;
+
+
+    public void modifyFaq(String question, String answer, String imageUrl, String url){
         if(question != null) this.question = question;
-        if(answer!=null) this.answer = answer;
+        if(answer != null) this.answer = answer;
+        if(imageUrl != null) this.imageUrl = imageUrl;
+        if(url != null) this.url = url;
     }
 }
