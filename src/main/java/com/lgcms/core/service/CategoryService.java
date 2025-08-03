@@ -89,4 +89,11 @@ public class CategoryService {
     public void deleteCategory(Long id) {
         categoryRepository.deleteById(id);
     }
+
+    @Transactional
+    public List<CategoryResponse> getInternalCategory() {
+        return categoryRepository.findAll().stream()
+                .map(category -> new CategoryResponse(category.getName(),category.getId()))
+                .toList();
+    }
 }
