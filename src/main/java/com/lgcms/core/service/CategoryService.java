@@ -35,22 +35,6 @@ public class CategoryService {
                 .build();
 
         categoryRepository.save(category);
-
-        SubCategory subCategory = SubCategory.builder()
-                .categoryId(category.getId())
-                .name(categoryRequest.subCategory())
-                .build();
-
-        subCategoryRepository.save(subCategory);
-
-        Item item = Item.builder()
-                .categoryId(category.getId())
-                .subCategoryId(subCategory.getId())
-                .name(categoryRequest.item())
-                .build();
-
-        itemRepository.save(item);
-
     }
 
 
@@ -101,9 +85,15 @@ public class CategoryService {
         return itemResponses;
     }
 
+    @Transactional
     public void deleteCategory(Long id) {
-        itemRepository.deleteAllByCategoryId(id);
-        subCategoryRepository.deleteAllByCategoryId(id);
         categoryRepository.deleteById(id);
+    }
+
+    @Transactional
+    public List<CategoryResponse> getInternalCategory() {
+        return categoryRepository.findAll().stream()
+                .map(category -> new CategoryResponse(category.getName(),category.getId()))
+                .toList();
     }
 }
