@@ -21,5 +21,6 @@ public class InternalCategoryController {
     @GetMapping("")
     public List<CategoryResponse> memberCategory(){
        List<CategoryResponse> categoryResponses = categoryService.getInternalCategory();
+       return categoryResponses;
     }
 }
