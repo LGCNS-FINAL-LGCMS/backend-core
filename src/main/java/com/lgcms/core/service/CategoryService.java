@@ -13,9 +13,11 @@ import com.lgcms.core.repository.ItemRepository;
 import com.lgcms.core.repository.SubCategoryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -27,6 +29,7 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
     private final SubCategoryRepository subCategoryRepository;
     private final ItemRepository itemRepository;
+    private final RedisTemplate<String,Object> redisTemplate;
 
     @Transactional
     public void createCategory(CategoryRequest categoryRequest) {
@@ -95,5 +98,22 @@ public class CategoryService {
         return categoryRepository.findAll().stream()
                 .map(category -> new CategoryResponse(category.getName(),category.getId()))
                 .toList();
+    }
+
+    @Transactional
+    public List<CategoryResponse> pushCategoryList(List<CategoryRequest> categoryRequests) {
+
+        List<CategoryResponse> categoryResponses = new ArrayList<>();
+        for(CategoryRequest categoryRequest : categoryRequests){
+            Category category = Category.builder()
+                    .name(categoryRequest.categoryName())
+                    .build();
+            categoryRepository.save(category);
+            redisTemplate.opsForValue().set("CATEGORY:"+category.getId(),category.getName());
+            categoryResponses.add(new CategoryResponse(category.getName(), category.getId()));
+        }
+
+        return categoryResponses;
+
     }
 }
