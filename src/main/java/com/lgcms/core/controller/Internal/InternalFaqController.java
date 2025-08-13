@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/internal/faq")
+@RequestMapping("/api/internal/core/faq")
 @RequiredArgsConstructor
 public class InternalFaqController {
 
