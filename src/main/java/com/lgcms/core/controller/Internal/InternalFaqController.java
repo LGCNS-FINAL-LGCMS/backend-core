@@ -1,6 +1,6 @@
 package com.lgcms.core.controller.Internal;
 
-import com.lgcms.core.common.BaseResponse;
+import com.lgcms.core.common.dto.BaseResponse;
 import com.lgcms.core.service.FaqService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

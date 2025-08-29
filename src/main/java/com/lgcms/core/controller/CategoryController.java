@@ -1,6 +1,6 @@
 package com.lgcms.core.controller;
 
-import com.lgcms.core.common.BaseResponse;
+import com.lgcms.core.common.dto.BaseResponse;
 import com.lgcms.core.dto.request.CategoryRequest;
 import com.lgcms.core.dto.response.CategoryListResponse;
 import com.lgcms.core.dto.response.CategoryResponse;
@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
 @Slf4j
 @RequiredArgsConstructor
 public class CategoryController {

@@ -1,4 +1,4 @@
-package com.lgcms.core.common.exception;
+package com.lgcms.core.common.dto.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

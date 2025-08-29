@@ -1,9 +1,9 @@
 package com.lgcms.core.advice;
 
 
-import com.lgcms.core.common.BaseResponse;
-import com.lgcms.core.common.exception.BaseException;
-import com.lgcms.core.common.exception.ErrorCode;
+import com.lgcms.core.common.dto.BaseResponse;
+import com.lgcms.core.common.dto.exception.BaseException;
+import com.lgcms.core.common.dto.exception.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;

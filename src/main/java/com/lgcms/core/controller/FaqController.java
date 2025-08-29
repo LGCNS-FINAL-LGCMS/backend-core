@@ -1,6 +1,6 @@
 package com.lgcms.core.controller;
 
-import com.lgcms.core.common.BaseResponse;
+import com.lgcms.core.common.dto.BaseResponse;
 import com.lgcms.core.dto.request.FaqRequest;
 import com.lgcms.core.dto.response.FaqResponse;
 import com.lgcms.core.service.FaqService;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
 @RequiredArgsConstructor
 public class FaqController {
 
