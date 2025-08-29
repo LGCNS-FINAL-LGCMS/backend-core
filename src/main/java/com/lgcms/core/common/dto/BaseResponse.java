@@ -1,4 +1,4 @@
-package com.lgcms.core.common;
+package com.lgcms.core.common.dto;
 
 public record BaseResponse<T>(
     String status,

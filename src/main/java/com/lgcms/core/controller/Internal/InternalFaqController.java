@@ -1,6 +1,6 @@
 package com.lgcms.core.controller.Internal;
 
-import com.lgcms.core.common.BaseResponse;
+import com.lgcms.core.common.dto.BaseResponse;
 import com.lgcms.core.service.FaqService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/internal/faq")
+@RequestMapping("/api/internal/core/faq")
 @RequiredArgsConstructor
 public class InternalFaqController {
 

@@ -1,7 +1,7 @@
 package com.lgcms.core.service;
 
-import com.lgcms.core.common.exception.BaseException;
-import com.lgcms.core.common.exception.FaqError;
+import com.lgcms.core.common.dto.exception.BaseException;
+import com.lgcms.core.common.dto.exception.FaqError;
 import com.lgcms.core.domain.Faq;
 import com.lgcms.core.dto.request.FaqRequest;
 import com.lgcms.core.dto.response.FaqResponse;
