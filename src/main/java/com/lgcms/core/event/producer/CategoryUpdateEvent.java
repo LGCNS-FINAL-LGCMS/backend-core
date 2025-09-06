@@ -26,7 +26,7 @@ public class CategoryUpdateEvent {
                 .eventId(applicationName + UUID.randomUUID().toString())
                 .eventType("CATEGORY_CREATED")
                 .eventTime(LocalDateTime.now().toString())
-                .data(null)
+                .data(categoryEvent)
                 .build();
         kafkaTemplate.send("CATEGORY", kafkaEvent);
     }
