@@ -1,6 +1,7 @@
 package com.lgcms.core.controller;
 
 import com.lgcms.core.common.dto.BaseResponse;
+import com.lgcms.core.dto.request.CategoryModifyRequest;
 import com.lgcms.core.dto.request.CategoryRequest;
 import com.lgcms.core.dto.response.CategoryListResponse;
 import com.lgcms.core.dto.response.CategoryResponse;
@@ -59,6 +60,12 @@ public class CategoryController {
         List<ItemResponse> itemResponses = categoryService.getItems(subCategoryId);
 
         return ResponseEntity.ok(BaseResponse.ok(itemResponses));
+    }
+
+    @PatchMapping("/admin/core/category/modify")
+    public ResponseEntity<BaseResponse<String>> modifyCategory(@RequestBody CategoryModifyRequest categoryModifyRequest){
+        String name = categoryService.modifyCategory(categoryModifyRequest);
+        return ResponseEntity.ok(BaseResponse.ok(name));
     }
 
     @DeleteMapping("/core/category/{id}")
