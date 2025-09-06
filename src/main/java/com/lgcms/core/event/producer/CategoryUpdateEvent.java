@@ -17,7 +17,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CategoryUpdateEvent {
 
-    @Value("spring.application.name")
+    @Value("${spring.application.name}")
     private String applicationName;
     private final KafkaTemplate kafkaTemplate;
 
