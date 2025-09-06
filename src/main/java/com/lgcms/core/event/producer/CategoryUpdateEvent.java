@@ -12,12 +12,12 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Component
+@Service
 @Slf4j
 @RequiredArgsConstructor
 public class CategoryUpdateEvent {
 
-    @Value("spring.application.name")
+    @Value("${spring.application.name}")
     private String applicationName;
     private final KafkaTemplate kafkaTemplate;
 
