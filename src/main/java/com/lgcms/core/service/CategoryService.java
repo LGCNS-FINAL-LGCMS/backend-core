@@ -1,13 +1,18 @@
 package com.lgcms.core.service;
 
+import com.lgcms.core.common.dto.exception.BaseException;
+import com.lgcms.core.common.dto.exception.CategoryError;
+import com.lgcms.core.common.kafka.dto.CategoryEvent;
 import com.lgcms.core.domain.Category;
 import com.lgcms.core.domain.Item;
 import com.lgcms.core.domain.SubCategory;
+import com.lgcms.core.dto.request.CategoryModifyRequest;
 import com.lgcms.core.dto.request.CategoryRequest;
 import com.lgcms.core.dto.response.CategoryListResponse;
 import com.lgcms.core.dto.response.CategoryResponse;
 import com.lgcms.core.dto.response.ItemResponse;
 import com.lgcms.core.dto.response.SubCategoryResponse;
+import com.lgcms.core.event.producer.CategoryUpdateEvent;
 import com.lgcms.core.repository.CategoryRepository;
 import com.lgcms.core.repository.ItemRepository;
 import com.lgcms.core.repository.SubCategoryRepository;
@@ -31,7 +36,8 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
     private final SubCategoryRepository subCategoryRepository;
     private final ItemRepository itemRepository;
-    private final RedisTemplate<String,Object> redisTemplate;
+    private final RedisTemplate<String, Object> redisTemplate;
+    private final CategoryUpdateEvent categoryUpdateEvent;
 
     @Transactional
     public void createCategory(CategoryRequest categoryRequest) {
@@ -40,6 +46,14 @@ public class CategoryService {
                 .build();
 
         categoryRepository.save(category);
+
+        redisTemplate.opsForValue().set("CATEGORY:" + category.getId(), category.getName());
+        CategoryEvent categoryEvent = CategoryEvent.builder()
+                .categoryName(categoryRequest.categoryName())
+                .key("CATEGORY:" + category.getId())
+                .build();
+        categoryUpdateEvent.CategoryCreated(categoryEvent);
+
     }
 
 
@@ -98,7 +112,7 @@ public class CategoryService {
     @Transactional
     public List<CategoryResponse> getInternalCategory() {
         return categoryRepository.findAll().stream()
-                .map(category -> new CategoryResponse(category.getName(),category.getId()))
+                .map(category -> new CategoryResponse(category.getName(), category.getId()))
                 .toList();
     }
 
@@ -106,17 +120,36 @@ public class CategoryService {
     public List<CategoryResponse> pushCategoryList(List<CategoryRequest> categoryRequests) {
 
         List<CategoryResponse> categoryResponses = new ArrayList<>();
-        for(CategoryRequest categoryRequest : categoryRequests){
+        for (CategoryRequest categoryRequest : categoryRequests) {
             System.out.println(categoryRequest.categoryName());
             Category category = Category.builder()
                     .name(categoryRequest.categoryName())
                     .build();
             categoryRepository.save(category);
-            redisTemplate.opsForValue().set("CATEGORY:"+category.getId(),category.getName());
+            redisTemplate.opsForValue().set("CATEGORY:" + category.getId(), category.getName());
             categoryResponses.add(new CategoryResponse(category.getName(), category.getId()));
         }
 
         return categoryResponses;
 
+    }
+
+    @Transactional
+    public String modifyCategory(CategoryModifyRequest categoryModifyRequest) {
+        Category category = categoryRepository.findByName(categoryModifyRequest.getCategory());
+
+        if (category == null) throw new BaseException(CategoryError.CATEGORY_NOT_FOUND);
+        category.modifyCategory(categoryModifyRequest.getModifyCategory());
+        String key = "CATEGORY:" + category.getId();
+
+        redisTemplate.opsForValue().set(key, categoryModifyRequest.getModifyCategory());
+
+        CategoryEvent categoryEvent = CategoryEvent.builder()
+                .categoryName(categoryModifyRequest.getModifyCategory())
+                .key(key)
+                .build();
+        categoryUpdateEvent.CategoryModified(categoryEvent);
+
+        return categoryModifyRequest.getModifyCategory();
     }
 }

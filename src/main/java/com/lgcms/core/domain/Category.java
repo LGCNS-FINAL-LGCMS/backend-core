@@ -20,4 +20,8 @@ public class Category {
     private Long id;
 
     private String name;
+
+    public void modifyCategory(String category){
+        this.name = category;
+    }
 }
