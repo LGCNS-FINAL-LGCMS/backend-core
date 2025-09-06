@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Component
+@Service
 @Slf4j
 @RequiredArgsConstructor
 public class CategoryUpdateEvent {
