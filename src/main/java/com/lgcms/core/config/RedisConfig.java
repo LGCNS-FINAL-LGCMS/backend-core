@@ -1,11 +1,16 @@
 package com.lgcms.core.config;
 
+import io.lettuce.core.resource.ClientResources;
+import io.lettuce.core.tracing.MicrometerTracing;
+import io.micrometer.observation.ObservationRegistry;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
+import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
@@ -23,25 +28,32 @@ public class RedisConfig {
     private int database;
 
     @Bean
-    public RedisConnectionFactory redisConnectionFactory() {
-        LettuceConnectionFactory connectionFactory = new LettuceConnectionFactory(host, port);
-
-        connectionFactory.setDatabase(database);
-
-        return connectionFactory;
+    public RedisConnectionFactory redisConnectionFactory(ClientResources clientResources) {
+        LettuceClientConfiguration clientConfig = LettuceClientConfiguration.builder()
+            .clientResources(clientResources).build();
+        RedisStandaloneConfiguration redisConfig = new RedisStandaloneConfiguration(host, port);
+        redisConfig.setDatabase(database);
+        return new LettuceConnectionFactory(redisConfig, clientConfig);
     }
 
     @Bean
-    public RedisTemplate<String, Object> redisTemplate(){
+    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory){
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
 
-        redisTemplate.setConnectionFactory(redisConnectionFactory());
+        redisTemplate.setConnectionFactory(redisConnectionFactory);
 
         redisTemplate.setKeySerializer(new StringRedisSerializer());
 
         redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
 
         return redisTemplate;
+    }
+
+    @Bean
+    public ClientResources clientResources(ObservationRegistry observationRegistry) {
+        return ClientResources.builder()
+            .tracing(new MicrometerTracing(observationRegistry, "redis-cache"))
+            .build();
     }
 
 }
